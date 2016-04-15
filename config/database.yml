@@ -1,21 +1,51 @@
-default: &default
+writable: &writable
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
-  password:
-  socket: /tmp/mysql.sock
+  username: user_w
+  password: user_w
+  host: localhost
+
+readonly: &readonly
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: user_r
+  password: user_r
+  host: localhost
 
 development:
-  <<: *default
+  <<: *writable
+  database: switch_point_rails_sample_development
+development_master:
+  <<: *writable
+  database: switch_point_rails_sample_development
+development_slave:
+  <<: *readonly
   database: switch_point_rails_sample_development
 
 test:
-  <<: *default
+  <<: *writable
+  database: switch_point_rails_sample_test
+test_master:
+  <<: *writable
+  database: switch_point_rails_sample_test
+test_slave:
+  <<: *readonly
   database: switch_point_rails_sample_test
 
 production:
-  <<: *default
+  <<: *writable
   database: switch_point_rails_sample_production
   username: switch_point_rails_sample
-  password: <%= ENV['SWITCH_POINT_RAILS_SAMPLE_DATABASE_PASSWORD'] %>
+  password: <%= ENV['KURASURE_DATABASE_PASSWORD'] %>
+production_master:
+  <<: *writable
+  database: switch_point_rails_sample_production
+  username: switch_point_rails_sample
+  password: <%= ENV['KURASURE_DATABASE_PASSWORD'] %>
+production_slave:
+  <<: *readonly
+  database: switch_point_rails_sample_production
+  username: switch_point_rails_sample
+  password: <%= ENV['KURASURE_DATABASE_PASSWORD'] %>
