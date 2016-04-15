@@ -1,0 +1,8 @@
+machine:
+  ruby:
+    version: "2.2"
+database:
+  post:
+    - mysql -uroot < config/circle/setup.sql
+    - mv config/circle/database.yml config/database.yml
+    - bundle exec rake db:create db:migrate

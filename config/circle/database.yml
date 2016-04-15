@@ -1,0 +1,25 @@
+writable: &writable
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: user_w
+  password: user_w
+  host: localhost
+
+readonly: &readonly
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: user_r
+  password: user_r
+  host: localhost
+
+test:
+  <<: *writable
+  database: switch_point_rails_sample_test
+test_master:
+  <<: *writable
+  database: switch_point_rails_sample_test
+test_slave:
+  <<: *readonly
+  database: switch_point_rails_sample_test
